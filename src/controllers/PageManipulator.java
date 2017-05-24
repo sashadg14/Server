@@ -17,6 +17,33 @@ public class PageManipulator {
         this.studentArrayList=studentArrayList;
         //this.table=table;
     }
+
+    public void setNoOfPage(int noOfPage) {
+        this.noOfPage = noOfPage;
+    }
+    public int getNoOfPage() {
+        int countOfPages= studentArrayList.size() /countOfStudentOnLists;
+        if (countOfStudentOnLists*(countOfPages)==0)
+            return 0;
+        if (countOfStudentOnLists*(countOfPages)==studentArrayList.size())
+            return noOfPage+1;
+        else return noOfPage+1;
+    }
+    public int getCountOfPages(){
+        int countOfPages= studentArrayList.size() /countOfStudentOnLists;
+        if (countOfStudentOnLists*(countOfPages)<studentArrayList.size())
+            return countOfPages+1;
+        else
+        if(countOfPages!=0)
+            return countOfPages;
+        else return 0;
+    }
+    public int getCountOfStudentOnLists(){
+        return countOfStudentOnLists;
+    }
+    public int getCountOfAllStuden(){
+        return studentArrayList.size();
+    }
     public void setStudentArrayList(ArrayList<Student> studentArrayList) {
         this.studentArrayList = studentArrayList;
         noOfPage=noOfPageReserv;

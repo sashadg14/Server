@@ -20,10 +20,9 @@ public class StudentBase {
     public ArrayList<Student> getStudents() {
         return students;
     }
-    public void removeStudents(ArrayList<Student> studentArrayList){
-        for(Student student:studentArrayList){
-            students.remove(student);
-        }
+    public int removeStudents(ArrayList<Student> studentArrayList){
+        students.removeAll(studentArrayList);
+        return studentArrayList.size();
     }
     public void saveStudentBase(String fileName)
     {

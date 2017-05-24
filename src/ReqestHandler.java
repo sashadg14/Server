@@ -2,6 +2,7 @@ import controllers.DataBaseManipulation;
 import controllers.PageManipulator;
 import model.Student;
 import model.StudentBase;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class ReqestHandler {
     DataBaseManipulation dataBaseManipulation;
     PageManipulator pageManipulator;
     PageManipulator pageManipulatorForFinding;
+    private static final Logger log = Logger.getLogger(ReqestHandler.class);
     ReqestHandler(BufferedReader in, PrintWriter out) throws IOException {
         this.in=in;
         this.out=out;
@@ -39,11 +41,23 @@ public class ReqestHandler {
         dataBaseManipulation.addNewStudentInBase(strings);
 
     }
+
     public void getPageRequest(){
         returnPageToClient(pageManipulator);
     }
+    public void setNumberOFStudentsOnPageRequest(){
+        try {
+            pageManipulator.setCountOfStudentOnLists(Integer.parseInt(in.readLine()));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            //e.printStackTrace();
+        }
+    }
     private void returnPageToClient(PageManipulator pageManipulator){
         out.println(pageManipulator.returnPageOfStudents().size());
+        out.println("Страница "+pageManipulator.getNoOfPage()+" из " +
+                pageManipulator.getCountOfPages()+" на странице макс. "+pageManipulator.getCountOfStudentOnLists()+" из "+pageManipulator.getCountOfAllStuden());
+
         for(Student student:pageManipulator.returnPageOfStudents()) {
             out.println(student.getFirstName());
             out.println(student.getMiddleName());
@@ -56,6 +70,7 @@ public class ReqestHandler {
     }
 
     public void deleteByNameAndGroupRequest() throws IOException {
+        pageManipulator.setNoOfPage(0);
         String fclient,name = "",group="";
             if ((fclient = in.readLine()) != ""){
                 name=fclient;
@@ -67,6 +82,7 @@ public class ReqestHandler {
         dataBaseManipulation.deleteStudentByNameAndGrop(name,group);
     }
     public void deleteByNameAndWorkRequest() throws IOException {
+        pageManipulator.setNoOfPage(0);
         String fclient,name = "",work="";
             if ((fclient = in.readLine()) != ""){
                 name=fclient;
@@ -78,6 +94,7 @@ public class ReqestHandler {
         dataBaseManipulation.deleteStudentByNameAndWork(name,work);
     }
     public void deleteByNameAndNumberOfWorkRequest() throws IOException {
+        pageManipulator.setNoOfPage(0);
         String fclient,name = "",lowerLimit="",upperLimit="";
             if ((fclient = in.readLine()) != ""){
                 name=fclient;

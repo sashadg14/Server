@@ -1,5 +1,6 @@
 package fileWorking;
 import model.Student;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by alex o n 23.04.2017.
  */public class Parser {
+    private static final Logger log = Logger.getLogger(Parser.class);
     public void writeFile(ArrayList<Student> studentArrayList, String fileName){
         try
         {
@@ -64,12 +66,14 @@ import java.util.ArrayList;
         catch (ParserConfigurationException pce)
         {
             System.out.println(pce.getLocalizedMessage());
-            pce.printStackTrace();
+            log.error(pce.getMessage());
+            //pce.printStackTrace();
         }
         catch (TransformerException te)
         {
             System.out.println(te.getLocalizedMessage());
-            te.printStackTrace();
+            //te.printStackTrace();
+            log.error(te.getMessage());
         }
     }
     public ArrayList<Student> readFromFile(String fileName){
@@ -84,6 +88,7 @@ import java.util.ArrayList;
             saxParserFactory=null;
         } catch (ParserConfigurationException | SAXException | IOException e) {
             if(e.getClass()==FileNotFoundException.class){
+                log.error(e.getMessage());
             System.out.println("File not found");
             }
         }
